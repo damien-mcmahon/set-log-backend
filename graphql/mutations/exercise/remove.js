@@ -4,11 +4,11 @@ import {
 } from 'graphql';
 
 import getProjection from '../../get-projection';
-import ExerciseInputType from '../../types/exercise-input';
+import ExerciseType from '../../types/exercise';
 import ExerciseModel from '../../../models/exercise';
 
 export default {
-  type: ExerciseInputType,
+  type: ExerciseType,
   args: {
     _id: {
       name: '_id',

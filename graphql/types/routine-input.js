@@ -15,7 +15,7 @@ export default new GraphQLInputObjectType({
       type: GraphQLID
     },
     sets: {
-      type: GraphQLList(SetInput)
+      type: new GraphQLList(SetInput)
     },
     intervalBetweenSets: {
       type: GraphQLInt

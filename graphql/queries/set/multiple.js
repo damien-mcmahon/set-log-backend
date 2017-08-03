@@ -9,7 +9,7 @@ import SetModel from '../../../models/set';
 export default {
   type: new GraphQLList(SetType),
   args: {},
-  resolve: (root, params, options) {
+  resolve(root, params, options) {
     const projection = getProjection(options.fieldASTs[0]);
 
     return SetModel

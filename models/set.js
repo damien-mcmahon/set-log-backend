@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const SetSchema = new mongoose.Schema({
   exerciseId: {
-    type: mongoose.Schema.Types.ObectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true
   },
   repsCount: {

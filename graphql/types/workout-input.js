@@ -7,6 +7,7 @@ import {
 } from 'graphql';
 
 import CompletedSetInput from './completed-set-input';
+import SetInput from './set-input';
 
 export default new GraphQLInputObjectType({
   name: 'WorkoutInput',
@@ -15,7 +16,7 @@ export default new GraphQLInputObjectType({
       type: GraphQLID
     },
     completedSets: {
-      type: GraphQLList(SetInput)
+      type: new GraphQLList(SetInput)
     },
     completedOn: {
       type: GraphQLInt

@@ -1,6 +1,6 @@
 import {
   GraphQLObjectType,
-  GraphQLString,
+  GraphQLInt,
   GraphQLID,
   GraphQLNonNull,
   GraphQLList
@@ -12,10 +12,10 @@ export default new GraphQLObjectType({
   name: 'Routine',
   fields: {
     _id: {
-      type: GraphQLNonNull(GraphQLID)
+      type: new GraphQLNonNull(GraphQLID)
     },
     sets: {
-      type: GraphQLList(SetType)
+      type: new GraphQLList(SetType)
     },
     intervalBetweenSets: {
       type: GraphQLInt

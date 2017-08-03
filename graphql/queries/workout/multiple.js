@@ -9,7 +9,7 @@ import WorkoutModel from '../../../models/workout';
 export default {
   type: new GraphQLList(WorkoutType),
   args: {},
-  resolve: (root, params, options) {
+  resolve(root, params, options) {
     const projection = getProjection(options.fieldASTs[0]);
 
     return WorkoutModel

@@ -3,12 +3,12 @@ import {
   GraphQLID
 } from 'graphql';
 
-import RoutineInputType from '../../types/routine-input';
+import RoutineType from '../../types/routine';
 import RoutineModel from '../../../models/routine';
 import getProjection from '../../get-projection';
 
 export default {
-  type: RoutineInputType,
+  type: RoutineType,
   args: {
     _id: {
       name: '_id',

@@ -3,12 +3,12 @@ import {
   GraphQLID
 } from 'graphql';
 
-import SetInputType from '../../types/set-input';
+import SetType from '../../types/set';
 import SetModel from '../../../models/set';
 import getProjection from '../../get-projection';
 
 export default {
-  type: SetInputType,
+  type: SetType,
   args: {
     _id: {
       name: '_id',

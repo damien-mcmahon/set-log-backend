@@ -3,12 +3,12 @@ import {
   GraphQLID
 } from 'graphql';
 
-import WorkoutInputType from '../../types/workout-input';
+import WorkoutType from '../../types/workout';
 import WorkoutModel from '../../../models/workout';
 import getProjection from '../../get-projection';
 
 export default {
-  type: WorkoutInputType,
+  type: WorkoutType,
   args: {
     _id: {
       name: '_id',

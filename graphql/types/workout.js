@@ -12,10 +12,10 @@ export default new GraphQLObjectType({
   name: 'Workout',
   fields: {
     _id: {
-      type: GraphQLNonNull(GraphQLID)
+      type: new GraphQLNonNull(GraphQLID)
     },
     completedSets: {
-      type: GraphQLList(CompletedSet)
+      type: new GraphQLList(CompletedSet)
     },
     completedOn: {
       type: GraphQLInt

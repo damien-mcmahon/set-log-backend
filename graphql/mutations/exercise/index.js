@@ -3,7 +3,7 @@ import removeAllExercises from './remove-all';
 import addExercise from './add';
 
 export default {
-  addCompletedSet,
+  addExercise,
   removeExercise,
   removeAllExercises
 };

@@ -18,7 +18,7 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve: (root, params, options) {
+  resolve(root, params, options) {
     const projection = getProjection(options.fieldASTs[0]);
     return RoutineModel
       .findById(params.id)
