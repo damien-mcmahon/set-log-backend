@@ -7,7 +7,6 @@ import {
 import {Types} from 'mongoose';
 
 import CompletedSetType from '../../types/completed-set';
-import getProjection from '../../get-projection';
 import CompletedSetModel from '../../../models/completed-set';
 
 export default {
@@ -18,11 +17,5 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
-    return CompletedSetModel
-      .findById(params.id)
-      .select(projection)
-      .exec();
-  }
+  resolve: (root, params) => CompletedSetModel.findById(params.id).exec()
 };

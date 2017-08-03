@@ -7,7 +7,6 @@ import {
 import {Types} from 'mongoose';
 
 import WorkoutType from '../../types/workout';
-import getProjection from '../../get-projection';
 import WorkoutModel from '../../../models/workout';
 
 export default {
@@ -18,11 +17,5 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
-    return WorkoutModel
-      .findById(params.id)
-      .select(projection)
-      .exec();
-  }
+  resolve: (root, params) => WorkoutModel.findById(params.id).exec()
 };

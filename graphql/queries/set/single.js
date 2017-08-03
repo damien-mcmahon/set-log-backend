@@ -7,7 +7,6 @@ import {
 import {Types} from 'mongoose';
 
 import SetType from '../../types/set';
-import getProjection from '../../get-projection';
 import SetModel from '../../../models/set';
 
 export default {
@@ -18,11 +17,5 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
-    return SetModel
-      .findById(params.id)
-      .select(projection)
-      .exec();
-  }
+  resolve: (root, params) => SetModel.findById(params.id).exec()
 };

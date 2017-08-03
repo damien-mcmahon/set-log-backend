@@ -5,7 +5,6 @@ import {
 
 import WorkoutType from '../../types/workout';
 import WorkoutModel from '../../../models/workout';
-import getProjection from '../../get-projection';
 
 export default {
   type: WorkoutType,
@@ -15,12 +14,9 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  async resolve (root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  async resolve (root, params) {
     const removedWorkout = await WorkoutModel
-      .findByIdAndRemove(params._id, {
-        select: projection
-      })
+      .findByIdAndRemove(params._id)
       .exec();
 
     if (!removedWorkout) {

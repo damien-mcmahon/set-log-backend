@@ -7,7 +7,6 @@ import {
 import {Types} from 'mongoose';
 
 import RoutineType from '../../types/routine';
-import getProjection from '../../get-projection';
 import RoutineModel from '../../../models/routine';
 
 export default {
@@ -18,11 +17,5 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve(root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
-    return RoutineModel
-      .findById(params.id)
-      .select(projection)
-      .exec();
-  }
+  resolve: (root, params) => RoutineModel.findById(params.id).exec()
 };
