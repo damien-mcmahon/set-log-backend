@@ -12,6 +12,10 @@ const RoutineSchema = new mongoose.Schema({
   setCount: {
     type: Array,
     required: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   }
 });
 

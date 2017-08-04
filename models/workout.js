@@ -8,6 +8,10 @@ const WorkoutSchema = new mongoose.Schema({
   completedOn: {
     type: Date,
     required: true
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   }
 });
 

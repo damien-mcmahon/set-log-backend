@@ -3,7 +3,8 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLID,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } from 'graphql';
 
 import CompletedSetInput from './completed-set-input';
@@ -20,6 +21,9 @@ export default new GraphQLInputObjectType({
     },
     completedOn: {
       type: GraphQLInt
+    },
+    userId: {
+      type: new GraphQLNonNull(GraphQLID)
     }
   }
 });

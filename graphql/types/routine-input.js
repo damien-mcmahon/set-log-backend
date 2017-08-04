@@ -3,7 +3,8 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLID,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } from 'graphql';
 
 import SetInput from './set-input';
@@ -13,6 +14,9 @@ export default new GraphQLInputObjectType({
   fields: {
     _id: {
       type: GraphQLID
+    },
+    userId: {
+      type: new GraphQLNonNull(GraphQLID)
     },
     sets: {
       type: new GraphQLList(SetInput)
