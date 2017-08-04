@@ -14,7 +14,7 @@ export default {
       type: new GraphQLNonNull(SetInputType)
     }
   },
-  async resolve (root, params, options) {
+  async resolve (root, params) {
     const setModel = new SetModel(params.data);
     const newSet = await setModel.save();
 

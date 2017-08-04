@@ -14,7 +14,7 @@ export default {
       type: new GraphQLNonNull(RoutineInputType)
     }
   },
-  async resolve (root, params, options) {
+  async resolve (root, params) {
     const routineModel = new RoutineModel(params.data);
     const newRoutine = await routineModel.save();
 

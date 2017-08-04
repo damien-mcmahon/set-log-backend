@@ -14,7 +14,7 @@ export default {
       type: new GraphQLNonNull(CompletedSetType)
     }
   },
-  async resolve (root, params, options) {
+  async resolve (root, params) {
     const completedSetModel = new CompletedSetModel(params.data);
     const newCompletedSet = await completedSetModel.save();
 

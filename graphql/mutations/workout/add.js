@@ -14,7 +14,7 @@ export default {
       type: new GraphQLNonNull(WorkoutInputType)
     }
   },
-  async resolve (root, params, options) {
+  async resolve (root, params) {
     const workoutModel = new WorkoutModel(params.data);
     const newWorkout = await workoutModel.save();
 

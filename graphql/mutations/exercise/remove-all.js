@@ -6,9 +6,5 @@ import ExerciseModel from '../../../models/exercise';
 
 export default {
   type: GraphQLBoolean,
-  resolve(root, params, options) {
-    return ExerciseModel
-      .remove({})
-      .exec();
-  }
+  resolve: () => ExerciseModel.remove({}).exec()
 };

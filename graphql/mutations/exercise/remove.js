@@ -3,7 +3,6 @@ import {
   GraphQLID
 } from 'graphql';
 
-import getProjection from '../../get-projection';
 import ExerciseType from '../../types/exercise';
 import ExerciseModel from '../../../models/exercise';
 
@@ -15,12 +14,9 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  async resolve (root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  async resolve (root, params) {
     const removedExercises = await ExerciseModel
-      .findByIdAndRemove(params._id, {
-        select: projection
-      })
+      .findByIdAndRemove(params._id)
       .exec();
 
     if (!removedExercises) {

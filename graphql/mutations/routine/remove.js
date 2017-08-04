@@ -5,7 +5,6 @@ import {
 
 import RoutineType from '../../types/routine';
 import RoutineModel from '../../../models/routine';
-import getProjection from '../../get-projection';
 
 export default {
   type: RoutineType,
@@ -15,12 +14,9 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  async resolve (root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  async resolve (root, params) {
     const removeRoutine = await RoutineModel
-      .findByIdAndRemove(params._id, {
-        select: projection
-      })
+      .findByIdAndRemove(params._id)
       .exec();
 
     if (!removeRoutine) {

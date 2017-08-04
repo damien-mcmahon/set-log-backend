@@ -5,7 +5,6 @@ import {
 
 import SetType from '../../types/set';
 import SetModel from '../../../models/set';
-import getProjection from '../../get-projection';
 
 export default {
   type: SetType,
@@ -15,12 +14,9 @@ export default {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  async resolve (root, params, options) {
-    const projection = getProjection(options.fieldASTs[0]);
+  async resolve (root, params) {
     const removedSet = await SetModel
-      .findByIdAndRemove(params._id, {
-        select: projection
-      })
+      .findByIdAndRemove(params._id)
       .exec();
 
     if (!removedSet) {
