@@ -14,6 +14,9 @@ export default new GraphQLObjectType({
     _id: {
       type: new GraphQLNonNull(GraphQLID)
     },
+    userId: {
+      type: new GraphQLNonNull(GraphQLID)
+    },
     sets: {
       type: new GraphQLList(SetType)
     },

@@ -19,6 +19,9 @@ export default new GraphQLObjectType({
     },
     completedOn: {
       type: GraphQLInt
+    },
+    userId: {
+      type: new GraphQLNonNull(GraphQLID)
     }
   }
 });
