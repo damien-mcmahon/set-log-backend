@@ -29,36 +29,20 @@ function buildVariablesObject(queryOptions) {
     }
 }
 
-export function queryBuilder(queryName, fields, queryOptions) {
-  const displayFields = fields ? fields.join(',') : '';
-  const queryTypeSignature = buildTypeSignature(queryOptions); 
-  const queryNameString = buildQueryNameString(queryName, queryOptions); 
-  const variables = buildVariablesObject(queryOptions);
-    
-  const query = {
-    "query": `query ${queryTypeSignature} { ${queryNameString} { ${displayFields} } }`
-  };
+function genericQueryBuilder(type) {
+  return (queryName, fields, queryOptions) => {
+    const displayFields = fields ? `{ ${fields.join(',')} }` : '';
+    const queryTypeSignature = buildTypeSignature(queryOptions); 
+    const queryNameString = buildQueryNameString(queryName, queryOptions); 
+    const variables = buildVariablesObject(queryOptions);
+      
+    const query = {
+      "query": `${type} ${queryTypeSignature} { ${queryNameString} ${displayFields} }`
+    };
 
-  return { ...query, ...variables };
-};
-
-export function mutationBuilder(mutationName, mutationOptions, mutationData) {
-  return {
-    "query": `mutation (${mutationTypeSignature}) { ${mutationMethod}}`,
-    "variables": {
-      //data
-    }
+    return { ...query, ...variables };
   }
 }
 
-//
-//{
-//    "query": "mutation ($data: ExerciseInput!) { addExercise(data: $data) }",
-//    "variables": {
-//        "data": {
-//            "name": "Sit ups",
-//            "bodyAreaTargeted": "Back, Abs"
-//        }
-//    }
-//}
-//
+export const queryBuilder = genericQueryBuilder('query');
+export const mutationBuilder = genericQueryBuilder('mutation');

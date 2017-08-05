@@ -1,4 +1,4 @@
-import { queryBuilder } from '../../helpers/graphql-query-builder';
+import { queryBuilder, mutationBuilder } from '../../helpers/graphql-query-builder';
 import { expect } from 'chai';
 
 describe('Test Helpers -  GraphQL Query Builder', () => {
@@ -54,6 +54,27 @@ describe('Test Helpers -  GraphQL Query Builder', () => {
         } 
       }
       expect(queryBuilder('options', ['one'], queryOptions)).to.eql(expectedOutput)
-    })
-  })
+    });
+  });
+
+  describe('mutationBuilder()', () => {
+    it('removes brackets when no fields requested', () => {
+        expect(mutationBuilder('noParams')).to.eql({
+          "query": "mutation  { noParams  }"
+        });
+    });
+
+    it('sends the params but no fields correctly', () => {
+      expect(mutationBuilder('optionsButNoFields', null, [
+        {
+          variable: '$id', type: 'ID', required: true, param: 'id', value: '123'
+        }
+      ])).to.eql({
+        "query": "mutation ($id: ID!) { optionsButNoFields (id: $id)  }",
+        "variables": {
+          "id": "123"
+        }
+      });
+    });
+  });
 });
