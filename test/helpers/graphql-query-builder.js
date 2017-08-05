@@ -1,18 +1,23 @@
 import _ from 'lodash';
 
-export function queryBuilder(queryName, fields, queryOptions) {
-  const displayFields = fields ? fields.join(',') : '';
-  const queryTypeSignature = _.isUndefined(queryOptions) ?
+function buildTypeSignature(queryOptions) {
+  return _.isUndefined(queryOptions) ?
     '' :
     `(${
       queryOptions.map(q => `${q.variable}: ${q.type}${q.required ? '!' : ''}`).join(',')
     })`;
-  const queryNameString = _.isUndefined(queryOptions) ? 
+}
+
+function buildQueryNameString(queryName, queryOptions) {
+  return _.isUndefined(queryOptions) ? 
     queryName : 
     `${queryName} (${
       queryOptions.map(q => `${q.param}: ${q.variable}`).join(',')
     })`;
-  const variables = _.isUndefined(queryOptions) ? 
+}
+
+function buildVariablesObject(queryOptions) {
+  return _.isUndefined(queryOptions) ? 
     undefined :
     {
       "variables": (
@@ -22,18 +27,19 @@ export function queryBuilder(queryName, fields, queryOptions) {
         }, {})
       )
     }
+}
+
+export function queryBuilder(queryName, fields, queryOptions) {
+  const displayFields = fields ? fields.join(',') : '';
+  const queryTypeSignature = buildTypeSignature(queryOptions); 
+  const queryNameString = buildQueryNameString(queryName, queryOptions); 
+  const variables = buildVariablesObject(queryOptions);
     
-    //[] - {variable: '$id', type: 'ID', required: true, param: 'id', value: '111212'}
-    //variables = queryOptions.reduce((a,q) => a[q.param] = q.value)
   const query = {
     "query": `query ${queryTypeSignature} { ${queryNameString} { ${displayFields} } }`
   };
 
-
-  return {
-    ...query,
-    ...variables
-  };
+  return { ...query, ...variables };
 };
 
 export function mutationBuilder(mutationName, mutationOptions, mutationData) {
