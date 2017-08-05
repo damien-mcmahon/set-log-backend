@@ -15,6 +15,15 @@ describe('Test Helpers -  GraphQL Query Builder', () => {
       })
     });
 
+    it('throws an error when params are missing from qOptions', () => {
+      const incorrectQueryOptions = [
+        {variable: '$id', type: 'ID', required: true, value: '123'}
+      ];
+      expect(() => { 
+        queryBuilder('missingParams', ['one'], incorrectQueryOptions)
+      }).to.throw();
+    });
+
     it('creates complex queries that pass data', () => {
       const queryOptions = [
         {variable: '$id', type: 'ID', required: true, param: 'id', value: '11112'}

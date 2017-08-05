@@ -1,5 +1,13 @@
 import _ from 'lodash';
 
+const PARAMS_FOR_OPTIONS_OBJECT = ['variable', 'type', 'required', 'param', 'value'];
+
+function hasAllParams(queryOptions) {
+  return queryOptions.every(q => {
+    return PARAMS_FOR_OPTIONS_OBJECT.every(p => Object.keys(q).includes(p));
+  });
+}
+
 function buildTypeSignature(queryOptions) {
   return _.isUndefined(queryOptions) ?
     '' :
@@ -31,6 +39,11 @@ function buildVariablesObject(queryOptions) {
 
 function genericQueryBuilder(type) {
   return (queryName, fields, queryOptions) => {
+    
+    if (!_.isUndefined(queryOptions) && !hasAllParams(queryOptions)) {
+      throw new Error('Params missing');
+    }
+
     const displayFields = fields ? `{ ${fields.join(',')} }` : '';
     const queryTypeSignature = buildTypeSignature(queryOptions); 
     const queryNameString = buildQueryNameString(queryName, queryOptions); 
