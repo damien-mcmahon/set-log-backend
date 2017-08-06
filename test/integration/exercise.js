@@ -93,5 +93,15 @@ describe('API - Exercise', () => {
         })
       });
     });
+
+    describe('removeAll()', () => {
+      it('removes all exercises when called', async () => {
+        const { body } = await makeAPIRequest(mutationBuilder('removeAllExercises'));
+
+        expect(body).to.be.graphQL({
+          "removeAllExercises": true
+        });
+      });
+    });
   });
 });
