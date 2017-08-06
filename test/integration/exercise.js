@@ -73,5 +73,25 @@ describe('API - Exercise', () => {
         expect(res.body).to.be.graphQLError();
       });
     });
+
+    describe('remove()', () => {
+      let exerciseId;
+      let retrievedExercise;
+
+      beforeEach(async () => {
+        const { body: { data } } = await makeAPIRequest(queryBuilder('exercises', ['_id', 'name', 'bodyAreaTargeted']));
+        retrievedExercise = data.exercises[0];
+        exerciseId = retrievedExercise._id;
+      });
+
+      it('removes an exercise from the database', async () => {
+        const { body } = await makeAPIRequest(mutationBuilder('removeExercise', ['_id','name','bodyAreaTargeted'], [
+          exerciseIdFactory(exerciseId)
+        ]));
+        expect(body).to.be.graphQL({
+          "removeExercise": retrievedExercise
+        })
+      });
+    });
   });
 });

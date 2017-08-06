@@ -12,10 +12,10 @@ import ExerciseModel from '../../../models/exercise';
 export default {
   type: ExerciseType,
   args: {
-    id: {
-      name: 'id',
+    _id: {
+      name: '_id',
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve: (root, params) => ExerciseModel.findById(params.id).exec()
+  resolve: (root, params) => ExerciseModel.findById(params._id).exec()
 };

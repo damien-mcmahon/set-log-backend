@@ -13,10 +13,10 @@ export function exerciseFactory(name = 'Test', bodyAreaTargeted = 'Arms') {
 
 export function exerciseIdFactory(id = '') {
  return {
-    variable: '$id',
+    variable: '$_id',
     type: 'ID',
     required: true,
-    param: 'id',
+    param: '_id',
     value: id
   }; 
 };
