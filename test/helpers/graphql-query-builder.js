@@ -44,6 +44,10 @@ function genericQueryBuilder(type) {
       throw new Error('Params missing');
     }
 
+    if (type === 'query' && _.isUndefined(fields)) {
+      throw new Error('Queries require subfields to be set');
+    }
+
     const displayFields = fields ? `{ ${fields.join(',')} }` : '';
     const queryTypeSignature = buildTypeSignature(queryOptions); 
     const queryNameString = buildQueryNameString(queryName, queryOptions); 

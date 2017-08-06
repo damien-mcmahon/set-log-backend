@@ -15,6 +15,10 @@ describe('Test Helpers -  GraphQL Query Builder', () => {
       })
     });
 
+    it('throws an error is no fields are requested', () => {
+        expect(() => { queryBuilder('hasFields') }).to.throw();
+    });
+
     it('throws an error when params are missing from qOptions', () => {
       const incorrectQueryOptions = [
         {variable: '$id', type: 'ID', required: true, value: '123'}
