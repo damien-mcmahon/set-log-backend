@@ -11,9 +11,8 @@ const connection = mongoose.connect(getConnectionString(), {
   useMongoClient: true
 });
 
-connection.then(() => {
-  mongoose.connection.db.dropDatabase();
-})
+connection.then( async () => {
+  await mongoose.connection.db.dropDatabase();
+});
 
-//set the env variables
 app(CONFIG.TEST_PORT);

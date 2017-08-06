@@ -1,43 +1,38 @@
 import '../helpers/setup';
 import { queryBuilder, mutationBuilder } from '../helpers/graphql-query-builder';
-import { exerciseFactory } from '../factories/exercise-query';
+import { exerciseFactory } from '../factories/queries/exercise';
 import chai, { expect } from 'chai';
 import chaiGraphQL from 'chai-graphql';
-import app from '../../lib/app';
 import { makeAPIRequest } from '../helpers/make-request';
+import seedDB from '../helpers/seed';
 
 chai.use(chaiGraphQL);
 
 describe('API - Exercise', () => {
+  beforeEach(() => {
+    seedDB();
+  });
+
   describe('Queries', () => {
     describe('exercises()', () => {
-      it('retrieves an empty list of exercises', (done) => {
-        makeAPIRequest(queryBuilder('exercises', ['name', 'bodyAreaTargeted']))
-          .then(res => {
-            const { body } = res;
-            expect(body).to.be.graphQL({exercises: []});
-            done();
-          });
-      });
-
       it('retrieves a list of exercises', (done) => {
-        //add an exercise to the API
-        makeAPIRequest(mutationBuilder('addExercise', null, [
-          exerciseFactory('Chin ups', 'Chest')
-        ]))
-        .then(() => {
+        // TODO - remove this terrible race condition hack!
+        setTimeout(() => {
           makeAPIRequest(queryBuilder('exercises', ['name']))
             .then(res => {
               const { body } = res;
-              expect(body).to.be.graphQL({
-                "exercises": [{
-                  "name": "Chin ups"
-                }]
-              })
+              const { data: { exercises }} = body;
+
+              expect(exercises[0]).to.be.an('object');
+              expect(exercises[0]).to.have.property('name');
+              expect(exercises[0]).to.have.property('bodyAreaTargeted');
               done();
             });
-        }); 
+        }, 50);
       });
+    });
+
+    describe('exercise()', () => {
     });
   });
 
@@ -47,11 +42,11 @@ describe('API - Exercise', () => {
         makeAPIRequest(mutationBuilder('addExercise', null, [
           exerciseFactory('Chin ups', 'Chest')
         ]))
-          .then((res) => {
-            const { body } = res;
-            expect(body).to.be.graphQL({ addExercise: true})
-            done();
-          })
+        .then((res) => {
+          const { body } = res;
+          expect(body).to.be.graphQL({ addExercise: true})
+          done();
+        })
       });
     });
   });
