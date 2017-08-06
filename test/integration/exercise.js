@@ -1,6 +1,9 @@
 import '../helpers/setup';
 import { queryBuilder, mutationBuilder } from '../helpers/graphql-query-builder';
-import { exerciseFactory } from '../factories/queries/exercise';
+import { 
+  exerciseFactory,
+  exerciseIdFactory
+} from '../factories/queries/exercise';
 import chai, { expect } from 'chai';
 import chaiGraphQL from 'chai-graphql';
 import { makeAPIRequest } from '../helpers/make-request';
@@ -25,28 +28,49 @@ describe('API - Exercise', () => {
 
               expect(exercises[0]).to.be.an('object');
               expect(exercises[0]).to.have.property('name');
-              expect(exercises[0]).to.have.property('bodyAreaTargeted');
               done();
             });
-        }, 50);
+        }, 10);
       });
     });
 
     describe('exercise()', () => {
+      let exerciseId;
+      let retrievedExercise;
+
+      beforeEach(async () => {
+        const { body: { data } } = await makeAPIRequest(queryBuilder('exercises', ['_id', 'name', 'bodyAreaTargeted']));
+        retrievedExercise = data.exercises[0];
+        exerciseId = retrievedExercise._id;
+      });
+
+      it('retrieves the exercise from the given id', async () => {
+        const { body } = await makeAPIRequest(queryBuilder('exercise', ['_id', 'name', 'bodyAreaTargeted'], [
+          exerciseIdFactory(exerciseId)
+        ]));
+        expect(body).to.be.graphQL({
+          "exercise": retrievedExercise
+        });
+      })
     });
   });
 
   describe('Mutations', () => {
     describe('addExercise()', () => {
-      it('adds an exercise', (done) => {
-        makeAPIRequest(mutationBuilder('addExercise', null, [
-          exerciseFactory('Chin ups', 'Chest')
+      it('adds an exercise', async () => {
+        const { body } = await makeAPIRequest(mutationBuilder('addExercise', null, [
+          exerciseFactory('Pull Ups', 'Arms, Shoulders, Back')
         ]))
-        .then((res) => {
-          const { body } = res;
-          expect(body).to.be.graphQL({ addExercise: true})
-          done();
-        })
+
+        expect(body).to.be.graphQL({ addExercise: true})
+      });
+
+      it('wont add exercises with the same name', async () => {
+        const res = await makeAPIRequest(mutationBuilder('addExercise', null, [
+          exerciseFactory('Push ups', 'Chest')
+        ]));
+
+        expect(res.body).to.be.graphQLError();
       });
     });
   });

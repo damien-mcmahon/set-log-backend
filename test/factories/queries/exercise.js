@@ -10,3 +10,13 @@ export function exerciseFactory(name = 'Test', bodyAreaTargeted = 'Arms') {
     }
   };
 };
+
+export function exerciseIdFactory(id = '') {
+ return {
+    variable: '$id',
+    type: 'ID',
+    required: true,
+    param: 'id',
+    value: id
+  }; 
+};
